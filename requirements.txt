@@ -1,0 +1,9 @@
+pyrogram
+TgCrypto
+motor
+pymongo
+dnspython
+aiohttp
+flask
+gunicorn
+pyrofork

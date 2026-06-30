@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: doneforward-bot
+    env: docker
+    plan: free
+    envVars:
+      - key: API_ID
+        sync: false
+      - key: API_HASH
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: DATABASE_URI
+        sync: false
+      - key: DATABASE_NAME
+        value: doneforward
+      - key: BOT_OWNER_ID
+        sync: false
+      - key: FSUB_CHANNELS
+        sync: false
+      - key: PORT
+        value: 8000
