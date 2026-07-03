@@ -5,6 +5,7 @@ No secondary client needed — uses the main bot directly.
 """
 import logging
 import asyncio
+import re
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait, ChatWriteForbidden, ChannelInvalid, MessageIdInvalid
@@ -72,8 +73,8 @@ def _passes_keyword_filter(caption: str, kf: dict) -> bool:
         return True
     if not caption:
         return False
-    # Word-by-word exact match
-    words = caption.split(" ")
+    # Word-by-word exact match (split on any whitespace: space, tab, newline, etc.)
+    words = re.split(r"\s+", caption.strip())
     for kw in keywords:
         if kw in words:
             return True
@@ -133,7 +134,7 @@ def _blocked_by_keyword_unfilter(caption: str, ku: dict) -> bool:
         return False
     if not caption:
         return False
-    words = caption.split(" ")
+    words = re.split(r"\s+", caption.strip())
     for kw in keywords:
         if kw in words:
             return True
@@ -214,10 +215,16 @@ async def channel_message_handler(bot: Client, message: Message):
             logger.debug(f"Message filtered out for project {project_id_str}")
             continue
 
+        # ── Build searchable text (Caption + Text + Document Filename) ─────────
+        search_text = " ".join(filter(None, [
+            message.caption,
+            message.text,
+            message.document.file_name if message.document else None,
+        ]))
+
         # ── Keyword Filter check ──────────────────────────────────────────────
         kf = project.get("keyword_filter") or db.default_keyword_filter()
-        caption = message.caption or message.text or ""
-        if not _passes_keyword_filter(caption, kf):
+        if not _passes_keyword_filter(search_text, kf):
             logger.debug(f"Keyword filter blocked msg {message.id} for project {project_id_str}")
             continue
 
@@ -229,7 +236,7 @@ async def channel_message_handler(bot: Client, message: Message):
 
         # ── Keyword Unfilter check (prohibited keywords) ────────────────────────
         ku = project.get("keyword_unfilter") or db.default_keyword_unfilter()
-        if _blocked_by_keyword_unfilter(caption, ku):
+        if _blocked_by_keyword_unfilter(search_text, ku):
             logger.debug(f"Keyword unfilter blocked msg {message.id} for project {project_id_str}")
             continue
 
