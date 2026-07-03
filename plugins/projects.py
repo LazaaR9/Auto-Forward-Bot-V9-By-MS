@@ -23,7 +23,8 @@ from pyrogram.types import (
     InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, Message
 )
 
-MAX_KEYWORDS = 3  # Max keywords allowed for both features (for all users)
+MAX_KEYWORDS = 10  # Max keywords allowed for Keyword Filter / Keyword Replace / Keyword Unfilter (for all users)
+MAX_FILE_EXTENSIONS = 3  # Max extensions allowed for F Keywords Filter (unchanged)
 
 # ─── Temporary in-memory state per user during project creation ──────────────
 _draft: dict = {}   # user_id -> draft project dict
@@ -789,7 +790,7 @@ def _ff_menu_markup(project_id: str, ff: dict):
                 InlineKeyboardButton("🗑️", callback_data=f"proj_ff_del_{project_id}_{i}"),
             ])
 
-    if len(extensions) < MAX_KEYWORDS:
+    if len(extensions) < MAX_FILE_EXTENSIONS:
         buttons.append([InlineKeyboardButton("➕ Add Extension", callback_data=f"proj_ff_add_{project_id}")])
 
     buttons.append([InlineKeyboardButton("↩️ Back", callback_data=f"proj_additional_{project_id}")])
@@ -808,7 +809,7 @@ def _ff_info_text(ff: dict) -> str:
         f"If OFF or no extensions set → all files forwarded.\n\n"
         f"<b>Format to add:</b> <code>pdf</code>\n"
         f"<b>Multiple:</b> <code>pdf,zip,txt</code>\n\n"
-        f"<b>Current extensions ({len(extensions)}/{MAX_KEYWORDS}):</b>\n{ext_lines}"
+        f"<b>Current extensions ({len(extensions)}/{MAX_FILE_EXTENSIONS}):</b>\n{ext_lines}"
     )
 
 
@@ -847,8 +848,8 @@ async def proj_ff_add_cb(bot: Client, query: CallbackQuery):
     ff = p.get("file_filter") or db.default_file_filter()
     extensions = ff.get("extensions", [])
 
-    if len(extensions) >= MAX_KEYWORDS:
-        await query.answer(f"Maximum {MAX_KEYWORDS} extensions allowed!", show_alert=True)
+    if len(extensions) >= MAX_FILE_EXTENSIONS:
+        await query.answer(f"Maximum {MAX_FILE_EXTENSIONS} extensions allowed!", show_alert=True)
         return
 
     await query.message.delete()
@@ -858,8 +859,8 @@ async def proj_ff_add_cb(bot: Client, query: CallbackQuery):
         f"Send file extension(s) to allow (without dot):\n"
         f"• Single: <code>pdf</code>\n"
         f"• Multiple: <code>pdf,zip,txt</code>\n\n"
-        f"⚠️ Max {MAX_KEYWORDS} total\n"
-        f"Current: {len(extensions)}/{MAX_KEYWORDS}\n\n"
+        f"⚠️ Max {MAX_FILE_EXTENSIONS} total\n"
+        f"Current: {len(extensions)}/{MAX_FILE_EXTENSIONS}\n\n"
         f"/cancel to cancel"
     )
     try:
@@ -875,7 +876,7 @@ async def proj_ff_add_cb(bot: Client, query: CallbackQuery):
     await msg.delete()
 
     new_exts = [e.strip().lower().lstrip(".") for e in text.split(",") if e.strip().strip(".")]
-    can_add = MAX_KEYWORDS - len(extensions)
+    can_add = MAX_FILE_EXTENSIONS - len(extensions)
     new_exts = new_exts[:can_add]
 
     extensions.extend(new_exts)
