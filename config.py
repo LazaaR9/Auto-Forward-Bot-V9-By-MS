@@ -7,7 +7,7 @@ class Config:
     BOT_SESSION = environ.get("BOT_SESSION", "DoneForwardBot")
     DATABASE_URI = environ.get("DATABASE_URI", "mongodb+srv://zee:zee@cluster0.s5dgb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     DATABASE_NAME = environ.get("DATABASE_NAME", "doneforward")
-    BOT_OWNER_ID = [int(x) for x in environ.get("BOT_OWNER_ID", "5179011789
+    BOT_OWNER_ID = [int(x) for x in environ.get("BOT_OWNER_ID", "5179011789").split()]
 
     # ─── Hardcoded Auth Users (Premium) ───────────────────────────────────────
     # Add user IDs here to grant permanent premium access via config
@@ -15,17 +15,17 @@ class Config:
     HARDCODED_AUTH_USERS = [int(x) for x in environ.get("HARDCODED_AUTH_USERS", "").split() if x]
 
     # Force subscribe channels - hardcoded with title and URL
-    FSUB_CHANNEL1_ID = int(environ.get("FSUB_CHANNEL1_ID", "-1003330631655"))
-    FSUB_CHANNEL1_TITLE = "Team Cinderella"
-    FSUB_CHANNEL1_URL = "https://t.me/TeamCinderella"
+    FSUB_CHANNEL1_ID = int(environ.get("FSUB_CHANNEL1_ID", "")
+    FSUB_CHANNEL1_TITLE = ""
+    FSUB_CHANNEL1_URL = ""
 
-    FSUB_CHANNEL2_ID = int(environ.get("FSUB_CHANNEL2_ID", "-1003910364346"))
-    FSUB_CHANNEL2_TITLE = "Cinderella Reviews"
-    FSUB_CHANNEL2_URL = "https://t.me/Cinderella_Reviews"
+    FSUB_CHANNEL2_ID = int(environ.get("FSUB_CHANNEL2_ID", ""))
+    FSUB_CHANNEL2_TITLE = ""
+    FSUB_CHANNEL2_URL = ""
 
-    FSUB_CHANNEL3_ID = int(environ.get("FSUB_CHANNEL3_ID", "-1004361013010"))
-    FSUB_CHANNEL3_TITLE = "Cinderella Updates"
-    FSUB_CHANNEL3_URL = "https://t.me/Cinderella_Updates"
+    FSUB_CHANNEL3_ID = int(environ.get("FSUB_CHANNEL3_ID", ""))
+    FSUB_CHANNEL3_TITLE = ""
+    FSUB_CHANNEL3_URL = ""
 
     FSUB_CHANNELS_INFO = [
         {"id": FSUB_CHANNEL1_ID, "title": FSUB_CHANNEL1_TITLE, "url": FSUB_CHANNEL1_URL},
