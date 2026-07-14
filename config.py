@@ -14,6 +14,17 @@ class Config:
     # These are in addition to DB-based auth users
     HARDCODED_AUTH_USERS = [int(x) for x in environ.get("HARDCODED_AUTH_USERS", "").split() if x]
 
+    # Force subscribe channels - hardcoded with title and URL
+    FSUB_CHANNEL1_ID = int(environ.get("FSUB_CHANNEL1_ID", "-1004324546316")) 
+    FSUB_CHANNEL1_TITLE = ""
+    FSUB_CHANNEL1_URL = ""
+    
+    FSUB_CHANNELS_INFO = [
+        {"id": FSUB_CHANNEL1_ID, "title": FSUB_CHANNEL1_TITLE, "url": FSUB_CHANNEL1_URL},
+    ]
+    # Keep FSUB_CHANNELS as list of IDs for backward compat
+    FSUB_CHANNELS = [FSUB_CHANNEL1_ID]
+
 class temp:
     BANNED_USERS = []
     forwardings = 0
