@@ -1,13 +1,13 @@
 from os import environ
 
 class Config:
-    API_ID = int(environ.get("API_ID", "38498066"))
-    API_HASH = environ.get("API_HASH", "c9696114751feacdeb1b4487f5839a1a")
-    BOT_TOKEN = environ.get("BOT_TOKEN", "")
+    API_ID = int(environ.get("API_ID", "25662550"))
+    API_HASH = environ.get("API_HASH", "3d2663ae1493ece93fab45f83b659acc")
+    BOT_TOKEN = environ.get("BOT_TOKEN", "8646605422:AAEQVzjhp1fVLhmgbcRCHMXRqbulKdcAAQQ")
     BOT_SESSION = environ.get("BOT_SESSION", "DoneForwardBot")
-    DATABASE_URI = environ.get("DATABASE_URI", "mongodb+srv://devms786178_db_user:cEtMdLjmHF5EM2Pf@cluster0.xbqyvnn.mongodb.net/?appName=Cluster0")
+    DATABASE_URI = environ.get("DATABASE_URI", "mongodb+srv://zee:zee@cluster0.s5dgb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
     DATABASE_NAME = environ.get("DATABASE_NAME", "doneforward")
-    BOT_OWNER_ID = [int(x) for x in environ.get("BOT_OWNER_ID", "8909902924").split()]
+    BOT_OWNER_ID = [int(x) for x in environ.get("BOT_OWNER_ID", "5179011789
 
     # ─── Hardcoded Auth Users (Premium) ───────────────────────────────────────
     # Add user IDs here to grant permanent premium access via config
