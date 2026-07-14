@@ -15,7 +15,7 @@ class Config:
     HARDCODED_AUTH_USERS = [int(x) for x in environ.get("HARDCODED_AUTH_USERS", "").split() if x]
 
     # Force subscribe channels - hardcoded with title and URL
-    FSUB_CHANNEL1_ID = int(environ.get("FSUB_CHANNEL1_ID", "")
+    FSUB_CHANNEL1_ID = int(environ.get("FSUB_CHANNEL1_ID", "")) 
     FSUB_CHANNEL1_TITLE = ""
     FSUB_CHANNEL1_URL = ""
 
